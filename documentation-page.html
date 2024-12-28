@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraud Detection Model Documentation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #1e40af, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="sticky top-0 bg-white backdrop-blur-lg bg-opacity-90 border-b border-gray-200 shadow-sm z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="text-xl font-bold gradient-text">Fraud Detection Model</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#introduction" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-800 hover:bg-blue-50 transition-all duration-300">Introduction</a>
+                        <a href="#dependencies" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-800 hover:bg-blue-50 transition-all duration-300">Dependencies</a>
+                        <a href="#data-processing" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-800 hover:bg-blue-50 transition-all duration-300">Data Processing</a>
+                        <a href="#model" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-800 hover:bg-blue-50 transition-all duration-300">Model</a>
+                        <a href="#predictions" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-800 hover:bg-blue-50 transition-all duration-300">Predictions</a>
+                        <a href="#contact" class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-blue-800 hover:bg-blue-50 transition-all duration-300">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-700 text-white py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-5xl font-bold mb-6 leading-tight">Fraud Detection Model with EBM</h1>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">An advanced fraud detection system using Explainable Boosting Machine with SHAP values</p>
+                <div class="mt-8">
+                    <a href="#introduction" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-900 bg-white hover:bg-blue-50 transition-all duration-300">
+                        Get Started
+                        <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-gray-50 to-transparent"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Table of Contents -->
+        <section class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Table of Contents</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gray-50 rounded-lg p-6 hover:bg-blue-50 transition-all duration-300">
+                    <h3 class="font-semibold mb-4 text-lg text-blue-900">Getting Started</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <i class="fas fa-book-open text-blue-700 mr-2"></i>
+                            <a href="#introduction" class="text-gray-700 hover:text-blue-900 transition-colors">Introduction</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-code text-blue-700 mr-2"></i>
+                            <a href="#dependencies" class="text-gray-700 hover:text-blue-900 transition-colors">Dependencies</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-database text-blue-700 mr-2"></i>
+                            <a href="#data-loading" class="text-gray-700 hover:text-blue-900 transition-colors">Data Loading</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gray-50 rounded-lg p-6 hover:bg-blue-50 transition-all duration-300">
+                    <h3 class="font-semibold mb-4 text-lg text-blue-900">Core Features</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center">
+                            <i class="fas fa-chart-bar text-blue-700 mr-2"></i>
+                            <a href="#predictions" class="text-gray-700 hover:text-blue-900 transition-colors">Predictions & Evaluation</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-shield-alt text-blue-700 mr-2"></i>
+                            <a href="#risk-scores" class="text-gray-700 hover:text-blue-900 transition-colors">Risk Scores</a>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-chart-pie text-blue-700 mr-2"></i>
+                            <a href="#feature-importance" class="text-gray-700 hover:text-blue-900 transition-colors">Feature Importance</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Introduction -->
+        <section id="introduction" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Introduction</h2>
+            <div class="prose max-w-none">
+                <p class="text-gray-700 leading-relaxed text-lg">
+                    The project implements a sophisticated fraud detection system using an Explainable Boosting Machine (EBM) model. 
+                    This advanced approach not only predicts potential fraud but also provides clear explanations for its decisions, 
+                    making it an invaluable tool for financial security and risk management.
+                </p>
+                <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+                        <i class="fas fa-shield-alt text-3xl text-blue-700 mb-4"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-blue-900">Fraud Detection</h3>
+                        <p class="text-gray-600">Advanced algorithms to identify suspicious patterns and anomalies</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+                        <i class="fas fa-chart-line text-3xl text-blue-700 mb-4"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-blue-900">Risk Analysis</h3>
+                        <p class="text-gray-600">Comprehensive risk scoring and evaluation system</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg border border-blue-200">
+                        <i class="fas fa-brain text-3xl text-blue-700 mb-4"></i>
+                        <h3 class="font-semibold text-lg mb-2 text-blue-900">Explainable AI</h3>
+                        <p class="text-gray-600">Transparent decision-making with SHAP values</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dependencies -->
+        <section id="dependencies" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Dependencies</h2>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                    <h3 class="font-semibold mb-4 text-lg text-blue-900 flex items-center">
+                        <i class="fas fa-cube mr-2"></i>
+                        Required Libraries
+                    </h3>
+                    <ul class="grid grid-cols-2 gap-3">
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            pandas
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            numpy
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            matplotlib
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            scikit-learn
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            shap
+                        </li>
+                        <li class="flex items-center text-gray-700">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            interpret
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                    <h3 class="font-semibold mb-4 text-lg text-blue-900 flex items-center">
+                        <i class="fas fa-terminal mr-2"></i>
+                        Installation
+                    </h3>
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <pre class="text-green-400"><code class="language-bash">pip install pandas numpy matplotlib shap scikit-learn interpret imbalanced-learn</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Processing -->
+        <section id="data-processing" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Data Processing</h2>
+            
+            <div id="data-loading" class="mb-8">
+                <h3 class="text-2xl font-semibold mb-4 text-blue-900 flex items-center">
+                    <i class="fas fa-database mr-2"></i>
+                    Data Loading
+                </h3>
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                    <div class="flex items-center">
+                        <i class="fas fa-file-csv text-2xl text-blue-700 mr-4"></i>
+                        <div>
+                            <p class="text-gray-700 text-lg">Dataset Source:</p>
+                            <code class="bg-gray-800 text-green-400 px-3 py-1 rounded text-sm">cleaned_fraud_detection_dataset.csv</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Preprocessing -->
+            <div id="data-preprocessing">
+                <h3 class="text-2xl font-semibold mb-4 text-blue-900 flex items-center">
+                    <i class="fas fa-cogs mr-2"></i>
+                    Preprocessing Steps
+                </h3>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Missing Values --><!-- Missing Values -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-tasks text-2xl text-blue-700 mr-2"></i>
+                            <h4 class="font-semibold text-lg text-blue-900">Missing Values</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Object columns filled with most frequent value</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Numerical columns filled with median value</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Feature Engineering -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-tools text-2xl text-blue-700 mr-2"></i>
+                            <h4 class="font-semibold text-lg text-blue-900">Feature Engineering</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Date columns transformed into numerical features</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Credit history length calculation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Days since recent trade calculation</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Data Scaling -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-balance-scale text-2xl text-blue-700 mr-2"></i>
+                            <h4 class="font-semibold text-lg text-blue-900">Data Scaling</h4>
+                        </div>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>StandardScaler applied to numerical features</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                <span>Zero mean and unit variance transformation</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model -->
+        <section id="model" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Model Details</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Training Process -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-blue-900 flex items-center">
+                        <i class="fas fa-cog fa-spin mr-2"></i>
+                        Training Process
+                    </h3>
+                    
+                    <!-- Data Split Card -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-divide text-2xl text-blue-700 mr-2"></i>
+                            <h4 class="font-semibold text-lg text-blue-900">Data Split</h4>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex items-center">
+                                <div class="w-full bg-gray-200 rounded-full h-4">
+                                    <div class="bg-blue-600 h-4 rounded-full" style="width: 80%"></div>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-600">80% Training</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-full bg-gray-200 rounded-full h-4">
+                                    <div class="bg-blue-400 h-4 rounded-full" style="width: 20%"></div>
+                                </div>
+                                <span class="ml-2 text-sm text-gray-600">20% Testing</span>
+                            </div>
+                            <p class="text-gray-700 mt-2">
+                                <i class="fas fa-random text-blue-700 mr-1"></i>
+                                Random seed set to 42 for reproducibility
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- SMOTE Handling -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-balance-scale-right text-2xl text-blue-700 mr-2"></i>
+                            <h4 class="font-semibold text-lg text-blue-900">Class Imbalance</h4>
+                        </div>
+                        <p class="text-gray-700">
+                            SMOTE (Synthetic Minority Over-sampling Technique) applied to balance the dataset
+                        </p>
+                        <div class="mt-4 flex items-center space-x-4">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Class Resampling</span>
+                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Enhanced Training</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Model Configuration -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-semibold text-blue-900 flex items-center">
+                        <i class="fas fa-sliders-h mr-2"></i>
+                        Model Configuration
+                    </h3>
+                    
+                    <!-- EBM Configuration -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-brain text-2xl text-blue-700 mr-2"></i>
+                            <h4 class="font-semibold text-lg text-blue-900">EBM Classifier</h4>
+                        </div>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Explainable Boosting Machine Classifier implementation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Interpretable model structure</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Built-in feature importance analysis</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Model Persistence -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-save text-2xl text-blue-700 mr-2"></i>
+                            <h4 class="font-semibold text-lg text-blue-900">Model Persistence</h4>
+                        </div>
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-center">
+                                <i class="fas fa-file-code text-blue-700 mr-2"></i>
+                                <code class="bg-gray-800 text-green-400 px-2 py-1 rounded text-sm">fraud_model.pkl</code>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-file-code text-blue-700 mr-2"></i>
+                                <code class="bg-gray-800 text-green-400 px-2 py-1 rounded text-sm">scaler.pkl</code>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Predictions and Evaluation -->
+        <section id="predictions" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+            <h2 class="text-3xl font-bold mb-6 gradient-text">Predictions and Evaluation</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Evaluation Metrics -->
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-chart-line text-2xl text-blue-700 mr-2"></i>
+                        <h3 class="text-xl font-semibold text-blue-900">Evaluation Metrics</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <!-- Accuracy -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Accuracy</span>
+                                <span class="text-blue-700 font-semibold">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        <!-- Precision -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Precision</span>
+                                <span class="text-blue-700 font-semibold">84%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 89%"></div>
+                            </div>
+                        </div>
+                        <!-- Recall -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">Recall</span>
+                                <span class="text-blue-700 font-semibold">85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 87%"></div>
+                            </div>
+                        </div>
+                        <!-- F1-Score -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">F1-Score</span>
+                                <span class="text-blue-700 font-semibold">87%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <!-- AUC-ROC-Score -->
+                        <div>
+                            <div class="flex justify-between mb-1">
+                                <span class="text-gray-700">AUC-ROC-Score</span>
+                                <span class="text-blue-700 font-semibold">81%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-blue-600 h-2 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional Analysis -->
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 hover:shadow-md transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <i class="fas fa-microscope text-2xl text-blue-700 mr-2"></i>
+                        <h3 class="text-xl font-semibold text-blue-900">Additional Analysis</h3>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="p-4 bg-white rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-blue-900 mb-2 flex items-center">
+                                <i class="fas fa-table mr-2"></i>
+                                Classification Report
+                            </h4>
+                            <p class="text-gray-700">Detailed metrics breakdown by class</p>
+                        </div>
+                        <div class="p-4 bg-white rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-blue-900 mb-2 flex items-center">
+                                <i class="fas fa-th mr-2"></i>
+                                Confusion Matrix
+                            </h4>
+                            <p class="text-gray-700">Visual representation of model performance</p>
+                        </div>
+                        <div class="p-4 bg-white rounded-lg shadow-sm">
+                            <h4 class="font-semibold text-blue-900 mb-2 flex items-center">
+                                <i class="fas fa-lightbulb mr-2"></i>
+                                Performance Insights
+                            </h4>
+                            <p class="text-gray-700">In-depth analysis of model behavior</p>
+                        </div>
+                    </div>
+                </div></div>
+            </section>
+    
+            <!-- Risk Scores -->
+            <section id="risk-scores" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Risk Scores Calculation</h2>
+                
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Risk Score Description -->
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-calculator text-2xl text-blue-700 mr-2"></i>
+                                <h3 class="text-xl font-semibold text-blue-900">Score Generation</h3>
+                            </div>
+                            <p class="text-gray-700 leading-relaxed">
+                                The model converts fraud probability predictions to a scale of 0-1000 using the 
+                                calculate_risk_scores function, providing actionable metrics for decision-making.
+                            </p>
+                            <div class="mt-4">
+                                <div class="flex items-center space-x-2">
+                                    <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">Low Risk: 0-300</span>
+                                    <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm">Medium Risk: 301-700</span>
+                                    <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-sm">High Risk: 701-1000</span>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <!-- Risk Score Visualization -->
+                        <div class="flex items-center justify-center">
+                            <div class="relative w-48 h-48">
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="w-40 h-40 rounded-full bg-gradient-to-br from-blue-400 via-yellow-400 to-red-500"></div>
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <div class="w-32 h-32 rounded-full bg-white flex items-center justify-center">
+                                        <div class="text-center">
+                                            <div class="text-2xl font-bold text-blue-900">Score</div>
+                                            <div class="text-gray-600">0-1000</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Feature Importance -->
+            <section id="feature-importance" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Feature Importance with SHAP</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- SHAP Values -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-chart-bar text-2xl text-blue-700 mr-2"></i>
+                            <h3 class="text-xl font-semibold text-blue-900">SHAP Analysis</h3>
+                        </div>
+                        <p class="text-gray-700 mb-4">
+                            SHAP (SHapley Additive exPlanations) values provide insights into feature contributions 
+                            for individual predictions.
+                        </p>
+                        <ul class="space-y-2">
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                Feature contribution analysis
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                Individual prediction explanations
+                            </li>
+                            <li class="flex items-center text-gray-700">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                Global model interpretation
+                            </li>
+                        </ul>
+                    </div>
+    
+                    <!-- Visualization -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-eye text-2xl text-blue-700 mr-2"></i>
+                            <h3 class="text-xl font-semibold text-blue-900">Visualization</h3>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="p-3 bg-white rounded-lg shadow-sm">
+                                <h4 class="font-semibold text-blue-900 mb-1">Summary Plot</h4>
+                                <p class="text-gray-700 text-sm">Overall feature importance visualization</p>
+                                <img src="summary_plot.png" alt="">
+                            </li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">
+                                <h4 class="font-semibold text-blue-900 mb-1">Individual SHAP Plots</h4>
+                                <p class="text-gray-700 text-sm">Per-sample feature contribution analysis</p>
+                            </li>
+                            <li class="p-3 bg-white rounded-lg shadow-sm">
+                                <h4 class="font-semibold text-blue-900 mb-1">PNG Exports</h4>
+                                <p class="text-gray-700 text-sm">High-quality visualization exports</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Output Files -->
+            <section id="output-files" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Output Files</h2>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Generated Files List -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-file-export text-2xl text-blue-700 mr-2"></i>
+                            <h3 class="text-xl font-semibold text-blue-900">Generated Files</h3>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-file-csv text-blue-700 mt-1 mr-2"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">risk_scores_comparison_prediction_actual.csv</h4>
+                                    <p class="text-sm text-gray-600">Risk scores and prediction results</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-file-csv text-blue-700 mt-1 mr-2"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">X_test_features.csv</h4>
+                                    <p class="text-sm text-gray-600">Scaled test set features</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-file-csv text-blue-700 mt-1 mr-2"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">full_results_with_features.csv</h4>
+                                    <p class="text-sm text-gray-600">Complete analysis results</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+    
+                    <!-- Visualization & Model Files -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-images text-2xl text-blue-700 mr-2"></i>
+                            <h3 class="text-xl font-semibold text-blue-900">Visualizations & Models</h3>
+                        </div>
+                        <ul class="space-y-4">
+                            <li class="flex items-start">
+                                <i class="fas fa-chart-pie text-blue-700 mt-1 mr-2"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">summary_plot.png</h4>
+                                    <p class="text-sm text-gray-600">SHAP summary visualization</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-folder text-blue-700 mt-1 mr-2"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">shap_plots directory</h4>
+                                    <p class="text-sm text-gray-600">Individual SHAP force plots</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-file-code text-blue-700 mt-1 mr-2"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">fraud_model.pkl</h4>
+                                    <p class="text-sm text-gray-600">Trained EBM model</p>
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-file-code text-blue-700 mt-1 mr-2"></i>
+                                <div>
+                                    <h4 class="font-semibold text-gray-800">scaler.pkl</h4>
+                                    <p class="text-sm text-gray-600">Trained StandardScaler</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section><!-- Usage Guide -->
+            <section id="usage" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Usage Guide</h2>
+                
+                <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200">
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Getting Started -->
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-play-circle text-2xl text-blue-700 mr-2"></i>
+                                <h3 class="text-xl font-semibold text-blue-900">Getting Started</h3>
+                            </div>
+                            <ol class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 font-semibold mr-3">1</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Install Dependencies</h4>
+                                        <p class="text-sm text-gray-600">Use pip to install required libraries</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 font-semibold mr-3">2</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Prepare Data</h4>
+                                        <p class="text-sm text-gray-600">Place data file in R/R/ directory</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 font-semibold mr-3">3</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Run Notebook</h4>
+                                        <p class="text-sm text-gray-600">Execute notebook cells sequentially</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-blue-100 text-blue-800 font-semibold mr-3">4</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">Check Results</h4>
+                                        <p class="text-sm text-gray-600">Review output in Model_Outputs directory</p>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+    
+                        <!-- Quick Tips -->
+                        <div>
+                            <div class="flex items-center mb-4">
+                                <i class="fas fa-lightbulb text-2xl text-blue-700 mr-2"></i>
+                                <h3 class="text-xl font-semibold text-blue-900">Quick Tips</h3>
+                            </div>
+                            <ul class="space-y-3">
+                                <li class="flex items-start p-3 bg-white rounded-lg shadow-sm">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <p class="text-gray-700">Ensure all dependencies are installed before running</p>
+                                </li><li class="flex items-start p-3 bg-white rounded-lg shadow-sm">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <p class="text-gray-700">Monitor memory usage during SMOTE processing</p>
+                                </li>
+                                <li class="flex items-start p-3 bg-white rounded-lg shadow-sm">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <p class="text-gray-700">Back up original data before preprocessing</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+            <!-- Contact Information -->
+            <section id="contact" class="mb-12 bg-white rounded-xl shadow-lg p-8 transform hover:shadow-xl transition-all duration-300">
+                <h2 class="text-3xl font-bold mb-6 gradient-text">Contact Information</h2>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Principal Author -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-circle text-3xl text-blue-700"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-blue-900 mb-2">Randitha Kulasekera</h3>
+                        <p class="text-gray-600 text-center text-sm mb-4">Principal Author</p>
+                        <div class="space-y-2">
+                            <a href="mailto:bharkula3@gmail.com" class="flex items-center justify-center px-4 py-2 bg-white rounded-lg text-blue-700 hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-envelope mr-2"></i>
+                                Email
+                            </a>
+                            <a href="https://linkedin.com/in/randitha" target="_blank" class="flex items-center justify-center px-4 py-2 bg-white rounded-lg text-blue-700 hover:bg-blue-50 transition-colors">
+                                <i class="fab fa-linkedin mr-2"></i>
+                                LinkedIn
+                            </a>
+                        </div>
+                    </div>
+    
+                    <!-- Author 2 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-circle text-3xl text-blue-700"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-blue-900 mb-2">Mehara Rothila</h3>
+                        <p class="text-gray-600 text-center text-sm mb-4">Author</p>
+                        <div class="space-y-2">
+                            <a href="mailto:rothila92@gmail.com" class="flex items-center justify-center px-4 py-2 bg-white rounded-lg text-blue-700 hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-envelope mr-2"></i>
+                                Email
+                            </a>
+                            <a href="https://linkedin.com/in/mehara-rothila-6956a2255" target="_blank" class="flex items-center justify-center px-4 py-2 bg-white rounded-lg text-blue-700 hover:bg-blue-50 transition-colors">
+                                <i class="fab fa-linkedin mr-2"></i>
+                                LinkedIn
+                            </a>
+                        </div>
+                    </div>
+    
+                    <!-- Author 3 -->
+                    <div class="bg-gradient-to-br from-gray-50 to-blue-50 p-6 rounded-lg border border-blue-200 transform hover:-translate-y-1 transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <div class="w-20 h-20 mx-auto bg-blue-100 rounded-full flex items-center justify-center">
+                                <i class="fas fa-user-circle text-3xl text-blue-700"></i>
+                            </div>
+                        </div>
+                        <h3 class="text-xl font-semibold text-center text-blue-900 mb-2">Shaarukshan Seralathan</h3>
+                        <p class="text-gray-600 text-center text-sm mb-4">Author</p>
+                        <div class="space-y-2">
+                            <a href="mailto:rukshs06.vgo@gmail.com" class="flex items-center justify-center px-4 py-2 bg-white rounded-lg text-blue-700 hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-envelope mr-2"></i>
+                                Email
+                            </a>
+                            <a href="https://linkedin.com/in/ruksh" target="_blank" class="flex items-center justify-center px-4 py-2 bg-white rounded-lg text-blue-700 hover:bg-blue-50 transition-colors">
+                                <i class="fab fa-linkedin mr-2"></i>
+                                LinkedIn
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold mb-4">Fraud Detection Model Documentation</h3>
+                    <p class="text-gray-400 mb-6">Built with explainable machine learning techniques for reliable fraud detection</p>
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin text-2xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-envelope text-2xl"></i>
+                        </a>
+                    </div>
+                    <div class="mt-8 text-gray-400">
+                        <p>&copy; 2024 Fraud Detection Model Documentation. All rights reserved by Team Xforce.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    
+        <script>
+            // Initialize Prism.js
+            Prism.highlightAll();
+    
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        </script>
+    </body>
+    </html>
